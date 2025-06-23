@@ -2,7 +2,7 @@ import utils.driver as driver
 from selenium.webdriver.common.by import By
 import pandas as pd
 
-data = pd.read_csv("data.csv")
+data = pd.read_csv("./csv/data.csv")
 titles = data["title"]
 urls = data["url"]
 
