@@ -17,4 +17,32 @@ for url in urls:
     texts.append(text[35:])
     
 data["text"] = texts 
-data.to_csv("./csv/articles_data.csv")
+
+# 抽出したテキストをdata辞書に追加
+
+
+print("--- 修正前のデータ ---")
+print(data['text'].iloc[0])
+
+
+# --- 2. text列の改行コードを半角スペースに置換 ---
+# df['text']の全ての行に対して、改行コード(\n or \r\n)を半角スペース(' ')に置換します
+data['text'] = data['text'].str.replace(r'\r|\n', ' ', regex=True)
+
+# --- 3. Pandas DataFrameに変換してCSVに保存 ---
+try:
+    # データをPandasのDataFrame形式に変換
+    df = pd.DataFrame(data)
+
+    # DataFrameをCSVファイルに保存（文字化けと不要な列を防ぐ設定）
+    df.to_csv(
+        './csv/articles_data.csv', 
+        index=False, 
+        encoding='utf-8-sig'
+    )
+    
+    print("スクレイピング結果を './csv/articles_data.csv' に正常に保存しました。")
+
+except Exception as e:
+    print(f"CSV保存中にエラーが発生しました: {e}")
+# data.to_csv("./csv/articles_data.csv")
